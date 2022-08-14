@@ -16,7 +16,10 @@
     "url": "https://github.com/fx15164/NJS101x_01/issues"
   },
   "homepage": "https://github.com/fx15164/NJS101x_01#readme",
-  "dependencies": {
+  "devDependencies": {
     "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
   }
 }
