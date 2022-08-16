@@ -2,6 +2,10 @@
     padding: 0;
     margin: 0;
 }
+
+.text-center {
+    text-align: center;
+}
 .main-header {
     background-color: antiquewhite;
 }
@@ -37,4 +41,17 @@
     background-color: rgb(109, 151, 151);
     border: 1px solid blueviolet;
     padding: 2px;
+}
+
+.product__form {
+    background-color: antiquewhite;
+    display: inline-block;
+    padding: 25px;
+    margin-top: 20px;
+}
+
+.product__form button {
+    margin: 0 5px;
+    background-color: rgb(132, 186, 168);
+    border: 1px solid rebeccapurple;
 }
