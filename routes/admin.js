@@ -7,7 +7,7 @@ const products = [];
 const rootDir = require('../util/path');
 
 router.get('/add-product', (req, res, next) => {
-    res.render('add-product', { title: 'Add Product', path: '/admin/add-product'});
+    res.render('add-product', { title: 'Add Product', path: '/admin/add-product', isAddPrActive: true});
 });
 
 router.post('/product', (req, res) => {

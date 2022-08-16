@@ -8,11 +8,12 @@ const shopRouter = require('./routes/shop');
 
 const app = express();
 
-app.engine('hbs', engine());
+app.engine('hbs', engine({ extname: 'hbs' }));
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 
 const rootDir = require('./util/path');
+const { extname } = require('path');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
