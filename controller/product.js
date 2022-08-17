@@ -12,10 +12,11 @@ exports.postAddProduct = (req, res) => {
 }
 
 exports.getProducts = (req, res) => {
-    const products = Product.fetchAll();
-    res.render('shop', {
-        products: products, title: 'Shop',
-        path: '/', hasProduct: products.length > 0,
-        isShopActive: true
-    })
+    Product.fetchAll(products => {
+        res.render('shop', {
+            products: products, title: 'Shop',
+            path: '/', hasProduct: products.length > 0,
+            isShopActive: true
+        })
+    });
 };
