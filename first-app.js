@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const { engine } = require('express-handlebars')
 
-const adminData = require('./routes/admin');
+const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 
 const app = express();
@@ -11,13 +11,10 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-const rootDir = require('./util/path');
-const { extname } = require('path');
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/admin', adminData.router);
+app.use('/admin', adminRouter);
 app.use(shopRouter);
 
 app.use((req, res) => {
