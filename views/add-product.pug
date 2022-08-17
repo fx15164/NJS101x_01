@@ -1,8 +1,0 @@
-extends layouts/main-layout.pug
-
-block content
-    .text-center
-        form(action="/admin/product", method="post").product__form
-            label(for="title") Title 
-            input(type="text", name="title")
-            button(type="submit") Add
