@@ -54,4 +54,14 @@ const p = path.join(
               });
           });
       }
+
+      static getCart(cb) {
+        fs.readFile(p, (err, content) => {
+            let cart = { products: [], totalPrice: 0 };
+            if (!err) {
+                cart = JSON.parse(content);
+            }
+            cb(cart);
+        });
+      }
   }
