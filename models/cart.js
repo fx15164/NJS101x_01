@@ -42,7 +42,11 @@ const p = path.join(
               const cart = JSON.parse(content);
               const updatedCart = {...cart};
 
-              const qty = cart.products.find(p => p.id === id).qty;
+              const prod = cart.products.find(p => p.id === id);
+              if (!prod) {
+                return;
+              }
+              const qty = prod.qty;
 
               const updatedProducts = [...cart.products.filter(p => p.id !== id)];
 
