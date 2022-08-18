@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const Product = require('./product');
 
 const p = path.join(
     path.dirname(process.mainModule.filename),
@@ -28,7 +29,29 @@ const p = path.join(
             cart.totalPrice = cart.totalPrice + prodPrice;
             fs.writeFile(p, JSON.stringify(cart), err => {
                 console.log(err);
-            })
+            });
         });
     }
+
+      static deleteById(id, prodPrice) {
+          fs.readFile(p, (err, content) => {
+              if (err) {
+                  return;
+              }
+
+              const cart = JSON.parse(content);
+              const updatedCart = {...cart};
+
+              const qty = cart.products.find(p => p.id === id).qty;
+
+              const updatedProducts = [...cart.products.filter(p => p.id !== id)];
+
+              updatedCart.products = updatedProducts;
+              updatedCart.totalPrice -= prodPrice * qty;
+
+              fs.writeFile(p, JSON.stringify(updatedCart), err => {
+                  console.log(err);
+              });
+          });
+      }
   }
