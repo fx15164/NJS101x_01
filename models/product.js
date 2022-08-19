@@ -22,7 +22,7 @@ module.exports = class Product {
     return db.execute('select * from products');
   }
 
-  static getProductById(id, cb) {
-
+  static getProductById(id) {
+    return db.execute('select * from products where id = ?', [id]);
   }
 };
