@@ -4,15 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
-const db = require('./util/database');
 
-db.execute('select * from products')
-    .then(result => {
-        console.log(result);
-    })
-    .catch(err => {
-        console.log(err);
-    })
 const app = express();
 
 app.set('view engine', 'ejs');
