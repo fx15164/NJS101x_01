@@ -14,7 +14,7 @@ exports.postAddProduct = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   const product = new Product(null, title, imageUrl, description, price);
-  Product.create({
+  req.user.createProduct({
     title,
     price,
     imageUrl,
@@ -70,7 +70,7 @@ exports.postEditProduct = (req, res, next) => {
       console.log('Product updated')
     })
     .catch(err => console.log(err));
-    res.redirect('/admin/products');
+  res.redirect('/admin/products');
 }
 
 exports.postDeleteProduct = (req, res, next) => {
