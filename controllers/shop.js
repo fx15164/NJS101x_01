@@ -42,22 +42,31 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  Cart.getCart(cart => {
-    const data = [];
-    Product.fetchAll(products => {
-      for (let product of products) {
-        const cartProduct = cart.products.find(p => p.id == product.id);
-        if(cartProduct) {
-          data.push({...product, ...cartProduct});
-        }
-      }
-      res.render('shop/cart', {
-        path: '/cart',
-        pageTitle: 'Your Cart',
-        products: data
-      });
-    });
-  })
+  req.user.getCart()
+    .then(cart => {
+      cart.getProducts()
+        .then(products => {
+          res.render('shop/cart', {
+            path: '/cart',
+            pageTitle: 'Your Cart',
+            products: products
+          })
+        })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  // Cart.getCart(cart => {
+  //   const data = [];
+  //   Product.fetchAll(products => {
+  //     for (let product of products) {
+  //       const cartProduct = cart.products.find(p => p.id == product.id);
+  //       if(cartProduct) {
+  //         data.push({...product, ...cartProduct});
+  //       }
+  //     }
+  //   });
+  // })
 };
 
 exports.postCart = (req, res, next) => {
