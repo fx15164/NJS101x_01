@@ -1,15 +1,26 @@
 const mongodb = require('mongodb');
 const mongoClient = mongodb.MongoClient;
 
+let _db;
+
 const mongoConnect = cb => {
     mongoClient.connect('mongodb+srv://admin:admin@cluster0.qczkvke.mongodb.net/?retryWrites=true&w=majority')
-    .then(reuslt => {
+    .then(client => {
         console.log('Conected');
-        cb(reuslt);
+        _db = client.db()
+        cb();
     })
     .catch(err => {
         console.log(err);
     })
 }
 
-module.exports = mongoConnect;
+const getDb = () => {
+    if (db) {
+        return db;
+    }
+    throw Error('Not database sound');
+}
+
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
