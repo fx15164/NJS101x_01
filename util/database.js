@@ -16,8 +16,8 @@ const mongoConnect = cb => {
 }
 
 const getDb = () => {
-    if (db) {
-        return db;
+    if (_db) {
+        return _db;
     }
     throw Error('Not database sound');
 }
