@@ -33,8 +33,17 @@ userSchema.methods.addToCart = function(product) {
     } else {
         updatedCartItem.push({productId: product._id, quantity: newQuantity});
     }
-    const updatedCart = { items: updatedCartItem };
-    this.cart = updatedCart;
+
+    this.cart = { items: updatedCartItem };
+    return this.save();
+}
+
+userSchema.methods.deleteFromCart = function(prodId) {
+    const updatedCartItem = this.cart.items.filter(
+        i => i.productId.toString() !== prodId.toString()
+    )
+    
+    this.cart = { items: updatedCartItem };
     return this.save();
 }
 
