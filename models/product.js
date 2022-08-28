@@ -22,7 +22,7 @@ class Product {
     }
     return dbOp
       .then(result => {
-        console.log(result);
+        // console.log(result);
       })
       .catch(err => {
         console.log(err);
@@ -47,7 +47,7 @@ class Product {
     return db.collection('products')
       .deleteOne({ _id: new mongodb.ObjectId(prodId) })
       .then(product => {
-        console.log(product);
+        // console.log(product);
         return product;
       })
       .catch(err => {
