@@ -3,7 +3,7 @@ const getDb = require('../util/database').getDb;
 
 class Product {
   constructor(id, title, price, imageUrl, description) {
-    this.id = id;
+    this._id = id;
     this.title = title;
     this.price = price;
     this.imageUrl = imageUrl;
@@ -12,8 +12,14 @@ class Product {
 
   save() {
     const db = getDb();
-    return db.collection('products')
-      .insertOne(this)
+    let dbOp;
+    if (this._id) {
+      dbOp = db.collection('products').updateOne({ _id: this._id }, { $set: this })
+    } else {
+      dbOp = db.collection('products')
+        .insertOne(this)
+    }
+    return dbOp
       .then(result => {
         console.log(result);
       })
@@ -38,7 +44,7 @@ class Product {
   static findById(prodId) {
     const db = getDb();
     return db.collection('products')
-      .find({_id: new mongodb.ObjectId(prodId)})
+      .find({ _id: new mongodb.ObjectId(prodId) })
       .next()
       .then(product => {
         console.log(product);
