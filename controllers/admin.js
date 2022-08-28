@@ -61,20 +61,20 @@ exports.postEditProduct = (req, res, next) => {
     .catch(err => console.log(err));
 }
 
-// exports.postDeleteProduct = (req, res, next) => {
-//   const id = req.body.id;
-//   Product.findByPk(id)
-//     .then(product => {
-//       return product.destroy();
-//     })
-//     .then(result => {
-//       console.log('Product destroyed');
-//       res.redirect('/admin/products');
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     })
-// }
+exports.postDeleteProduct = (req, res, next) => {
+  const id = req.body.id;
+  Product.findById(id)
+    .then(product => {
+      return Product.deleteById(id);
+    })
+    .then(result => {
+      console.log('Product destroyed');
+      res.redirect('/admin/products');
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
 
 exports.getProducts = (req, res, next) => {
     Product
