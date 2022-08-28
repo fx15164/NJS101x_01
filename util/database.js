@@ -4,7 +4,7 @@ const mongoClient = mongodb.MongoClient;
 let _db;
 
 const mongoConnect = cb => {
-    mongoClient.connect('mongodb+srv://admin:admin@cluster0.qczkvke.mongodb.net/?retryWrites=true&w=majority')
+    mongoClient.connect('mongodb://localhost:27017')
     .then(client => {
         console.log('Conected');
         _db = client.db()
