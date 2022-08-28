@@ -68,10 +68,21 @@ class User  {
             .updateOne({_id: this._id}, {$set: { cart: updatedCart }})
     }
 
+    addOrder() {
+        const db = getDb();
+        return db.collection('orders')
+            .insertOne(this.cart)
+            .then(result => {
+                return db.collection('users')
+                .updateOne({_id: this._id}, {$set: { cart: { items: []} }})
+            })
+    }
+
     static findById(userId) {
         const db = getDb();
         return db.collection('users').find({_id: new ObjectId(userId)}).next();
     }
+
 }
 
 module.exports = User;
