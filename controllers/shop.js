@@ -20,7 +20,6 @@ exports.getProduct = (req, res) => {
   const prodId = req.params.productId;
   Product.findById(prodId)
     .then(product => {
-      console.log(product);
       res.render('shop/product-detail', {
         pageTitle: product.title,
         product: product,
@@ -59,7 +58,6 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
-  let fetchedCart;
   Product.findById(prodId)
     .then(product => {
       return req.user.addToCart(product);
