@@ -1,3 +1,4 @@
+const session = require("express-session");
 
 
 exports.getLogin = (req, res) => {
@@ -6,7 +7,7 @@ exports.getLogin = (req, res) => {
     //     .split(';')[0]
     //     .trim()
     //     .split('=')[1] === 'true';
-
+    console.log(req.session.isLoggedIn);
     res.render('auth/login', {
         path: '/login',
         pageTitle: 'Login',
@@ -15,6 +16,7 @@ exports.getLogin = (req, res) => {
 }
 
 exports.postLogin = (req, res) => {
+    req.session.isLoggedIn = true;
     res.setHeader('Set-Cookie', 'loggedIn=true;HttpOnly');
     res.redirect('/');
 }
