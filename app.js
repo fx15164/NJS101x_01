@@ -1,6 +1,8 @@
 const path = require('path');
 
 const express = require('express');
+const session = require('express-session');
+
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -28,6 +30,7 @@ app.use((req, res, next) => {
         })
 })
 
+app.use(session({ secret: 'scr', resave: false, saveUninitialized: false}))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
