@@ -2,6 +2,7 @@ const path = require('path');
 
 const express = require('express');
 const session = require('express-session');
+const mongodbStore = require('connect-mongodb-session')(session);
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -11,6 +12,13 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const app = express();
+
+const MONGODB_URL = 'mongodb+srv://admin:admin@asm1.yjqy9ym.mongodb.net/?retryWrites=true&w=majority';
+
+const store = new mongodbStore({
+    uri: MONGODB_URL,
+    collection: 'sessions'
+});
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -30,7 +38,12 @@ app.use((req, res, next) => {
         })
 })
 
-app.use(session({ secret: 'scr', resave: false, saveUninitialized: false}))
+app.use(session({ 
+    secret: 'scr', 
+    resave: false, 
+    saveUninitialized: false,
+    store: store
+}))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -40,7 +53,7 @@ app.use(authRoutes);
 
 app.use(errorController.get404);
 
-mongoose.connect('mongodb+srv://admin:admin@asm1.yjqy9ym.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect(MONGODB_URL)
     .then(result => {
         User.findOne()
             .then(user => {
