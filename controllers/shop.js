@@ -64,7 +64,7 @@ exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findById(prodId)
     .then(product => {
-      return req.session.user.addToCart(product);
+      return req.user.addToCart(product);
     })
     .then(result => {
       res.redirect('/cart');
@@ -115,7 +115,7 @@ exports.postOrder = (req, res, next) => {
     return order.save();
   })
   .then(result => {
-    req.session.user.clearCart();
+    req.user.clearCart();
   })
   .then(result => {
     res.redirect('/orders');
