@@ -1,4 +1,5 @@
 const session = require("express-session");
+const user = require("../models/user");
 
 
 exports.getLogin = (req, res) => {
@@ -16,7 +17,18 @@ exports.getLogin = (req, res) => {
 }
 
 exports.postLogin = (req, res) => {
-    req.session.isLoggedIn = true;
-    res.setHeader('Set-Cookie', 'loggedIn=true;HttpOnly');
-    res.redirect('/');
+    user.findOne()
+        .then(user => {
+            req.session.isLoggedIn = true,
+            req.session.user = user;
+            res.redirect('/');
+        })
+        .catch(err => console.log(err));
+}
+
+exports.postLogout = (req, res) => {
+    req.session.destroy(err => {
+        console.log(err);
+        res.redirect('/');
+    });
 }
