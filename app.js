@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const csrf = require('csurf');
+const flash = require('connect-flash');
 const mongodbStore = require('connect-mongodb-session')(session);
 
 const bodyParser = require('body-parser');
@@ -41,6 +42,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(csrfProtection);
+app.use(flash());
 
 app.use((req, res, next) => {
     if (!req.session.user) {
