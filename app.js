@@ -2,6 +2,7 @@ const path = require('path');
 
 const express = require('express');
 const session = require('express-session');
+const csrf = require('csurf');
 const mongodbStore = require('connect-mongodb-session')(session);
 
 const bodyParser = require('body-parser');
@@ -20,6 +21,8 @@ const store = new mongodbStore({
     collection: 'sessions'
 });
 
+const csrfProtection = csrf();
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -34,22 +37,10 @@ app.use(session({
     store: store
 }))
 
-app.use((req, res, next) => {
-    if (!req.session.user) {
-        return next();
-    }
-    User.findOne(req.session.user._id)
-        .then(user => {
-            req.user = user;
-            next();
-        })
-        .catch(err => {
-            console.log(err);
-        })
-})
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(csrfProtection);
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
