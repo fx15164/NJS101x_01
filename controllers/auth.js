@@ -1,5 +1,6 @@
 const session = require("express-session");
 const User = require("../models/user");
+const bcrypt = require('bcryptjs');
 
 
 exports.getLogin = (req, res) => {
@@ -47,14 +48,17 @@ exports.postSignup = (req, res) => {
             if (userDoc) {
                 return res.redirect('/signup');
             } 
+            return bcrypt.hash(password, 12);
+        })
+       .then(hash => {
             const user = new User({
                 email,
-                password
+                password: hash
             });
             return user.save();
         })
         .then(result => {
-            return res.redirect('/login')
+            return res.redirect('/login');
         })
         .catch(err => {
             console.log(err);
