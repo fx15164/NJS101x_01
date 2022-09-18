@@ -46,7 +46,8 @@ exports.getSignup = (req, res, next) => {
         email: '',
         password: '',
         confirmPassword: ''
-    }
+    },
+    validationErrors: []
   });
 };
 
@@ -85,18 +86,18 @@ exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
-  const result = validationResult(req);
-  console.log(result);
-  if (!result.isEmpty()) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
     return res.status(422).render('auth/signup', {
         path: '/signup',
         pageTitle: 'Signup',
-        errorMessage: result.errors[0].msg,
+        errorMessage: errors.array()[0].msg,
         oldInput: {
             email,
             password,
             confirmPassword
-        }
+        },
+        validationErrors: errors.array()
       });
   }
     bcrypt
