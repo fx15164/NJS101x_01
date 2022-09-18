@@ -1,6 +1,8 @@
 const express = require('express');
 const { check, body } = require('express-validator/check')
 
+const User = require('../models/user');
+
 const authController = require('../controllers/auth');
 
 const router = express.Router();
@@ -17,11 +19,13 @@ router.post(
         check('email')
         .isEmail()
         .withMessage('Email is invald')
-        .custom((value, { req}) => {
-            if (value === "test@test.com") {
-                throw new Error('THis is email is forbitden');
-            }
-            return true;
+        .custom((value, { req }) => {
+            return User.findOne({ email: value })
+                .then(userDoc => {
+                    if (userDoc) {
+                        return Promise.reject('Email is already existed')
+                    }
+                })
         }), 
         body('password', "invalid pass").isLength({min:5}).isAlphanumeric(),
         body('confirmPassword').custom((value, { req }) => {
