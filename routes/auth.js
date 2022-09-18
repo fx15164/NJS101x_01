@@ -23,7 +23,13 @@ router.post(
             }
             return true;
         }), 
-        body('password', "invalid pass").isLength({min:5}).isAlphanumeric()
+        body('password', "invalid pass").isLength({min:5}).isAlphanumeric(),
+        body('confirmPassword').custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error('Comfirm passsword not match');
+            }
+            return true;
+        })
     ],
     authController.postSignup);
 
