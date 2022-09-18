@@ -11,23 +11,39 @@ router.get('/login', authController.getLogin);
 
 router.get('/signup', authController.getSignup);
 
-router.post('/login', authController.postLogin);
+router.post(
+    '/login', 
+    [
+        check('email')
+            .isEmail()
+            .withMessage('Email is invald')
+            .normalizeEmail(), 
+        body('password', "invalid pass")
+            .isLength({ min: 5 })
+            .isAlphanumeric()
+            .trim()
+    ],
+    authController.postLogin
+);
 
 router.post(
     '/signup', 
     [
         check('email')
-        .isEmail()
-        .withMessage('Email is invald')
-        .custom((value, { req }) => {
-            return User.findOne({ email: value })
-                .then(userDoc => {
-                    if (userDoc) {
-                        return Promise.reject('Email is already existed')
-                    }
-                })
-        }), 
-        body('password', "invalid pass").isLength({min:5}).isAlphanumeric(),
+            .isEmail()
+            .withMessage('Email is invald')
+            .custom((value, { req }) => {
+                return User.findOne({ email: value })
+                    .then(userDoc => {
+                        if (userDoc) {
+                            return Promise.reject('Email is already existed')
+                        }
+                    })
+            }),
+        body('password', "invalid pass")
+            .isLength({ min: 5 })
+            .isAlphanumeric()
+            .trim(),
         body('confirmPassword').custom((value, { req }) => {
             if (value !== req.body.password) {
                 throw new Error('Comfirm passsword not match');
