@@ -7,11 +7,11 @@ const router = express.Router();
 
 router.get('/login', authController.getLogin);
 
-router.get('/signup', check('email').isEmail() ,authController.getSignup);
+router.get('/signup', authController.getSignup);
 
 router.post('/login', authController.postLogin);
 
-router.post('/signup', authController.postSignup);
+router.post('/signup', check('email').isEmail().withMessage('Email is invald'), authController.postSignup);
 
 router.post('/logout', authController.postLogout);
 
