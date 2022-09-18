@@ -11,7 +11,17 @@ router.get('/signup', authController.getSignup);
 
 router.post('/login', authController.postLogin);
 
-router.post('/signup', check('email').isEmail().withMessage('Email is invald'), authController.postSignup);
+router.post(
+    '/signup', 
+    check('email')
+        .isEmail()
+        .withMessage('Email is invald')
+        .custom((value, { req}) => {
+            if (value === "test@test.com") {
+                throw new Error('THis is email is forbitden');
+            }
+        }), 
+    authController.postSignup);
 
 router.post('/logout', authController.postLogout);
 
