@@ -22,7 +22,6 @@ router.post(
             .isAlphanumeric()
             .isLength({ min: 5 })
             .trim(),
-        body('imageUrl').isURL(),
         body('price').isFloat(),
         body('description')
             .isLength({ min: 5, max: 200 })
