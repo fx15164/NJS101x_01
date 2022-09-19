@@ -14,11 +14,21 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
-  const imageUrl = req.file;
+  const image = req.file;
   const price = req.body.price;
   const description = req.body.description;
-
-  console.log(imageUrl);
+  console.log(image);
+  if (!image) {
+    return res.render('admin/edit-product', {
+      pageTitle: 'Add Product',
+      path: '/admin/add-product',
+      editing: false,
+      hasError: false,
+      errorMessage: 'Select iamge',
+      validationErrors: []
+    });
+  }
+  const imageUrl = image.path;
 
   const errors = validationResult(req);
 
@@ -91,8 +101,27 @@ exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
+  const image = req.file;
   const updatedDesc = req.body.description;
+
+  if(!image) {
+    return res.render('admin/edit-product', {
+      pageTitle: 'Edit Product',
+      path: '/admin/edit-product',
+      editing: true,
+      hasError: true,
+      product: {
+        _id: prodId,
+        title: updatedTitle,
+        price: updatedPrice,
+        description: updatedDesc
+      },
+      errorMessage: "Select iamge",
+      validationErrors: []
+    });
+  }
+
+  const updatedImageUrl = image.path;
 
   const errors = validationResult(req);
 
