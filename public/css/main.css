@@ -31,6 +31,25 @@ form {
   height: 100%;
 }
 
+.pagnination {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pagnination a {
+  text-decoration: none;
+  color: #00695c;
+  padding: 0.5rem;
+  border: 1px solid #00695c;
+  margin: 0 1rem;
+}
+
+.pagnination a:hover,
+.pagnination .active {
+  background-color: #00695c;
+  color: white;
+}
+
 .main-header {
   width: 100%;
   height: 3.5rem;
