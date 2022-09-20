@@ -150,7 +150,21 @@ exports.getInvoice = (req, res, next) => {
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', 'inline; filename=' + invoiceName);
       pdfDoc.pipe((res));
-      pdfDoc.text('Hello world');
+
+      pdfDoc.fontSize(26).text('Invoice', {
+        underline: true
+      })
+      pdfDoc.text('-----------------');
+
+      let totalPrice = 0;
+      order.products.forEach(p => {
+        totalPrice += p.product.price;
+        pdfDoc
+          .fontSize(14)
+          .text(p.product.title + ' - ' + p.quantity + ' x ' + ' $ ' + p.product.price)
+      })
+      pdfDoc.text('----');
+      pdfDoc.text('Total price: $' + totalPrice);
       pdfDoc.end();
     })
 }
